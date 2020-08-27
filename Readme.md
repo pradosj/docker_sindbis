@@ -7,7 +7,7 @@ The pipeline takes 2 inputs:
 
   1. a gzipped FASTQ file with extension `<file>.fastq.gz`. This file should contain 106bp-long-reads from SINDBIS infected cells.
   
-  2. a tab separated file `<file>.index.tsv` describing how to demultiplex sequences into the dissected areas. The first column must match the pattern `pupName_dissectionName`, and the `dissectionName` of the injection site must be equal to `S1InjSite`. 
+  2. a tab separated file `<file>.index.tsv` describing how to demultiplex sequences into the dissected areas. The first column must match the pattern `pupName_dissectionName`, and the `dissectionName` of the injection site must contains the string `Inj`. 
   
 
 Assuming the 2 input files exist, the pipeline can be run using the following command line into a terminal:
@@ -19,14 +19,14 @@ docker run --rm -v $(pwd):/export pradosj/sindbis <file>.sindbis/all
 Here is an example of input file for `.index.tsv`
 ```
 name	primer	sequence
-Q_S1InjSite	RT1	ATCACG
-Q_S1c	RT2	CGATGT
-Q_M1	RT3	 TTAGGC
-Q_M1c	RT4	TGACCA
-Q_S2	RT5	ACAGTG
-Q_S2c	RT6	GCCAAT
-Q_Str	RT7	CAGATC
-Q_Strc	RT8	ACTTGA
+Q_S1_Inj	ATCACG
+Q_S1c	CGATGT
+Q_M1	TTAGGC
+Q_M1c	TGACCA
+Q_S2	ACAGTG
+Q_S2c	GCCAAT
+Q_Str	CAGATC
+Q_Strc ACTTGA
 ```
 
 
