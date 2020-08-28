@@ -1,12 +1,6 @@
 
-SHELL=bash
-
-
-#test command:
-#docker run --rm -v $(pwd):/export sindbis -j2 MOS5_P7_{S1,RN}.umi.class.viral.fasta
-#docker run --rm -v $(pwd):/export sindbis MOS5_P7_S1.umi.class.viral{.bowtie_index/index.1.ebwt,.self.bam.clusters.filter100.fasta}
-#docker run --rm -v $(pwd):/export sindbis MOS5_P7_S1.umi.class.viral.self.bam.clusters.filter100{.bowtie_index/index.1.ebwt,.bowtie_aln/MOS5_P7_RN.umi.class.viral.bam}
-
+SHELL = bash
+FILTER = 100
 
 .PHONY:usage
 usage:
@@ -18,7 +12,7 @@ usage:
 .PHONY:%.sindbis/all
 %.sindbis/all:%.sindbis/demux_report.txt %.sindbis/links.txt %.sindbis/dissections.txt
 	awk '{ \
-	  ref = $$1 "_" $$2 ".umi.class.viral.self.bam.clusters.filter100"; \
+	  ref = $$1 "_" $$2 ".umi.class.viral.self.bam.clusters.filter$(FILTER)"; \
 	  targ = $$1 "_" $$3 ".umi.class.viral"; \
 	  print "$(@D)/" $$1 "_" $$2 ".umi.class.viral.fasta"; \
 	  print "$(@D)/" ref ".fasta"; \
@@ -128,9 +122,9 @@ usage:
 	Rscript -e 'source("/tmp/src/make.R");k <- make_barcode_cluster("$<");write.table(k,"$@",sep="\t",quote=FALSE,row.names=FALSE)'
 
 # Generate a FASTA with the centers of the clusters that have >=100 barcodes
-.PRECIOUS:%.self.bam.clusters.filter100.fasta
-%.self.bam.clusters.filter100.fasta:%.self.bam.clusters.tsv
-	awk 'BEGIN{FS="\t"} ($$7>=100 && $$6=="TRUE"){print ">" $$1 "_" $$3 "_" $$7;print $$5}' $< > $@
+.PRECIOUS:%.self.bam.clusters.filter$FILTER).fasta
+%.self.bam.clusters.filter$(FILTER).fasta:%.self.bam.clusters.tsv
+	awk 'BEGIN{FS="\t"} ($$7>=$(FILTER) && $$6=="TRUE"){print ">" $$1 "_" $$3 "_" $$7;print $$5}' $< > $@
 
 
 
