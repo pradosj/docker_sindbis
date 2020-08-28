@@ -16,16 +16,18 @@ usage:
 
 
 .PHONY:%.sindbis/all
-%.sindbis/all:%.sindbis/demux_report.txt %.sindbis/links.txt
+%.sindbis/all:%.sindbis/demux_report.txt %.sindbis/links.txt %.sindbis/dissections.txt
 	awk '{ \
 	  ref = $$1 "_" $$2 ".umi.class.viral.self.bam.clusters.filter100"; \
 	  targ = $$1 "_" $$3 ".umi.class.viral"; \
+	  print "$(@D)" $$1 "_" $$2 ".umi.class.viral.fasta"; \
 	  print "$(@D)/" ref ".fasta"; \
 	  print "$(@D)/" ref ".bowtie_index/index.1.ebwt"; \
 	  print "$(@D)/" targ ".fasta"; \
 	  print "$(@D)/" ref ".bowtie_aln/" targ ".bam"; \
 	  print "$(@D)/" ref ".bowtie_aln/" targ ".bam.tsv.gz"; \
 	}' $*.sindbis/links.txt | xargs $(MAKE) -f /tmp/Makefile 
+	
 
 
 
@@ -67,6 +69,7 @@ usage:
 
 # Generate UMI depuplicated table of the Barcodes found in the FASTQ reads
 # ignore reads with an N in the UMI or in the barcode
+.PRECIOUS:%.umi.tsv.gz
 %.umi.tsv.gz:%.fastq.gz
 	gzip -dc $(word 1,$^) | \
 	awk 'BEGIN{OFS="\t"}(NR%4==2){umi=substr($$0,95,12);bc32=substr($$0,1,32);if ((umi!~/N/) && (bc32!~/N/)){print umi,bc32;}}' | \
