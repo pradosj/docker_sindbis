@@ -20,7 +20,7 @@ usage:
 	awk '{ \
 	  ref = $$1 "_" $$2 ".umi.class.viral.self.bam.clusters.filter100"; \
 	  targ = $$1 "_" $$3 ".umi.class.viral"; \
-	  print "$(@D)" $$1 "_" $$2 ".umi.class.viral.fasta"; \
+	  print "$(@D)/" $$1 "_" $$2 ".umi.class.viral.fasta"; \
 	  print "$(@D)/" ref ".fasta"; \
 	  print "$(@D)/" ref ".bowtie_index/index.1.ebwt"; \
 	  print "$(@D)/" targ ".fasta"; \
