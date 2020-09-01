@@ -18,7 +18,7 @@ docker run --rm -v $(pwd):/export pradosj/sindbis <file>.sindbis/all
 # Example `.index.tsv`
 Here is an example of input file for `.index.tsv`
 ```
-name	primer	sequence
+name	sequence
 Q_S1_Inj	ATCACG
 Q_S1c	CGATGT
 Q_M1	TTAGGC
@@ -32,5 +32,5 @@ Q_Strc ACTTGA
 
 # Installation
 
-To run the pipeline, you just need to install [Docker](https://www.docker.com/get-started), and make sure enough memory resources are allocated to Docker (mine is set to 12Gb). To check the memory allocation: launch docker and in the docker menu navigate to `Preferences... >> Resources >> ADVANCED`.
+To run the pipeline, you need to install [Docker](https://www.docker.com/get-started), and make sure enough memory resources are allocated to Docker (mine is set to 12Gb). To check the memory allocation: launch docker and in the docker menu navigate to `Preferences... >> Resources >> ADVANCED`.
 
