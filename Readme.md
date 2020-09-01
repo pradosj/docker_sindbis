@@ -34,3 +34,15 @@ Q_Strc ACTTGA
 
 To run the pipeline, you need to install [Docker](https://www.docker.com/get-started), and make sure enough memory resources are allocated to Docker (mine is set to 12Gb). To check the memory allocation: launch docker and in the docker menu navigate to `Preferences... >> Resources >> ADVANCED`.
 
+
+# Parameters
+You can set the desired filtering parameter using parameter `FILTER=10`. This parameter control the minimum amount of barcode required in the Injections sites (default 100).
+```
+docker run --rm -v $(pwd):/export pradosj/sindbis FILTER=10 <file>.sindbis/all
+```
+
+
+
+
+
+
