@@ -62,3 +62,14 @@ The pipeline is implemented using Makefile rules, and generate multiple files in
      b. `*.self.bam.clusters.filter10.bowtie_aln/*.bam.tsv.gz`: identical to `../*.umi.class.tsv.gz` with the addition of 2 columns where barcodes as been mapped onto barcodes of the injection site.
  
 
+
+# Generate Barcode Count Matrix for R
+
+For R/Bioconductor users, we have introduce a command to generate a SummarizedExperiment object containing umi-corrected barcode counts. This command looks recursively into the given directory for all files matching pattern `*.umi.class.viral.bam.tsv.gz`; read them to extract the number of barcode into each target that match a barcode of the injection site.
+```
+docker run --rm -v $(pwd):/export pradosj/sindbis <directory>/umi_corrected_count_matrix.rds
+```
+
+
+
+
