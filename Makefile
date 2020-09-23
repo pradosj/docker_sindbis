@@ -150,3 +150,15 @@ usage:
 
 
 
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Barcode counting
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+%/umi_corrected_count_matrix.rds:
+	Rscript -e 'source("/tmp/src/make_bc_count.R");saveRDS(make_umi_corrected_count_matrix("$(@D)"),file="$@")'
+
+
+
+
