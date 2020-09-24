@@ -23,7 +23,7 @@ read_single_bam_tsv <- function(bam_tsv) {
   # summary statistics by class and specific to spikes
   x$class <- factor(x$class,c("viral","unknown","spike"))
   meta <- local({
-    N <- tabulate(x$class)
+    N <- tabulate(x$class,nlevels(x$class))
     names(N) <- levels(x$class)
     n <- tabulate(selfmatch(x$umi[x$class=="spike"]))
     c(N,spike_uniq_umi=sum(n==1),spike_multi_umi=sum(n>1))
