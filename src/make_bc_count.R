@@ -46,7 +46,7 @@ read_single_bam_tsv <- function(bam_tsv) {
 #'                  This is typically equal to "pup/injection-site" and is used to distinguish the same barcodes sequenced in different pup
 #' @return a SummarizedExperiment object with a count of the barcodes in each file
 read_multi_bam_tsv <- function(paths,bc_prefix="") {
-  n <- mclapply(mc.cores=4,paths,read_single_bam_tsv)
+  n <- lapply(paths,read_single_bam_tsv)
   bc <- unlist(mapply(paste0,bc_prefix,lapply(n,names)),use.names = FALSE)
   N <- Matrix::sparseMatrix(
     i = selfmatch(bc),
