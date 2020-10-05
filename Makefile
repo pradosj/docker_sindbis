@@ -58,7 +58,7 @@ usage:
 
 # Create links.txt discribing links between dissections
 %.sindbis/links.txt:%.sindbis/dissections.txt
-	join <(awk '$$2~/Inj/' $<) <(awk '$$2!~/Inj/' $<) > $@
+	join <(awk '$$2~/Inj/' $<) $< > $@
 
 
 # Generate UMI depuplicated table of the Barcodes found in the FASTQ reads
@@ -90,7 +90,17 @@ usage:
 
 .PRECIOUS:%.umi.class.tsv.gz.stat
 %.umi.class.tsv.gz.stat:%.umi.class.tsv.gz
-	gzip -dc $< | awk '($$4!="class"){n[$$4]++}END{for(i in n) print i "\t" n[i]}' > $@
+	gzip -dc $< | \
+	awk ' \
+	  ($$4!="class"){n[$$4]++} \
+	  ($$4=="spike"){spike[$$1]++} \
+	  END{ \
+	    for(i in n) print i "\t" n[i]; \
+	    for(j in spike) if (spike[j]>1) {spike_multi++} else {spike_uniq++}; \
+	    print "spike_multi_umi\t" spike_multi; \
+	    print "spike_uniq_umi\t" spike_uniq; \
+	  }' > $@
+
 
 # extract a FASTA with unique viral barcodes from a umi.class.tsv.gz file
 .PRECIOUS:%.umi.class.viral.fasta
